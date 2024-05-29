@@ -38,9 +38,9 @@ public class OffersServiceImpl implements OffersService {
                 createOffer(true, false, statementRequest),
                 createOffer(false, false, statementRequest)
         );
-        log.info("created 4 loan offers");
+        log.info("Created 4 loan offers for {}", statementRequest.getFirstName());
         return offerDtoList.stream()
-                .sorted(Comparator.comparing(LoanOfferDto::getTotalAmount))
+                .sorted(Comparator.comparing(LoanOfferDto::getRate))
                 .collect(Collectors.toList());
     }
 
