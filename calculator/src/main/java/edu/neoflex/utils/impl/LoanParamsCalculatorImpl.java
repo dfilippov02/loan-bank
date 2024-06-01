@@ -17,6 +17,9 @@ public class LoanParamsCalculatorImpl implements LoanParamsCalculator {
     @Value("${loan.insurance.cost}")
     BigDecimal loanInsuranceCost;
 
+    @Value("${loan.insurance.discount}")
+    BigDecimal loanInsuranceDiscount;
+
     @Value("${loan.salary-client.discount}")
     BigDecimal salaryClientDiscount;
 
@@ -27,7 +30,7 @@ public class LoanParamsCalculatorImpl implements LoanParamsCalculator {
         if(isSalaryClient){
             loanRate = loanBaseRate.subtract(salaryClientDiscount);
         } if(isInsuranceEnabled) {
-            loanRate = loanBaseRate.subtract(BigDecimal.valueOf(2));
+            loanRate = loanRate.subtract(loanInsuranceDiscount);
         }
         return loanRate;
     }
