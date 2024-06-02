@@ -34,7 +34,7 @@ public class ControllerAdvice {
     public ResponseEntity<?> handleValidationException(MethodArgumentNotValidException exception) {
         String message = exception.getBindingResult().getAllErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.joining());
+                .collect(Collectors.joining(", ", "", ""));
         log.error(message);
         return ResponseEntity.badRequest().body(Map.of("header", "Reject" ,"message", message));
     }

@@ -54,11 +54,11 @@ public class ScoringDataDto {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate passportIssueDate;
 
-    @NotNull
+    @NotNull(message = "Null parameter - passportIssueBranch")
     private String passportIssueBranch;
 
     @NotNull(message = "Null parameter - maritalStatus")
-    private MaterialStatus maritalStatus;
+    private ScoringDataDto.MaritalStatus maritalStatus;
 
     @NotNull(message = "Null parameter - dependentAmount")
     private Integer dependentAmount;
@@ -81,7 +81,7 @@ public class ScoringDataDto {
         NON_BINARY
     }
 
-    public enum MaterialStatus {
+    public enum MaritalStatus {
         MARRIED,
         DIVORCED,
         SINGLE
