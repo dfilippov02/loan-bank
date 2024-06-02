@@ -1,6 +1,6 @@
 package edu.neoflex.filters;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 
 @Order(value = Ordered.HIGHEST_PRECEDENCE)
 @Component
-@Log4j2
+@Slf4j
 @WebFilter(filterName = "LoggerFilter", urlPatterns = "/*")
 public class LoggerFilter extends OncePerRequestFilter {
 
@@ -31,12 +31,14 @@ public class LoggerFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(req, resp);
 
-        byte[] requestBody = req.getContentAsByteArray();
-        byte[] responseBody = resp.getContentAsByteArray();
+        if(request.getRequestURI().startsWith("/calculator")) {
+            byte[] requestBody = req.getContentAsByteArray();
+            byte[] responseBody = resp.getContentAsByteArray();
 
-        log.info("request body = {}", new String(requestBody, StandardCharsets.UTF_8));
-        log.info("response body = {}", new String(responseBody, StandardCharsets.UTF_8));
+            log.info("request body = {}", new String(requestBody, StandardCharsets.UTF_8));
+            log.info("response body = {}", new String(responseBody, StandardCharsets.UTF_8));
 
+        }
         resp.copyBodyToResponse();
     }
 }

@@ -2,11 +2,10 @@ package edu.neoflex.service.impl;
 
 import edu.neoflex.dto.LoanOfferDto;
 import edu.neoflex.dto.LoanStatementRequestDto;
-import edu.neoflex.exception.AppScoringException;
 import edu.neoflex.service.OffersService;
 import edu.neoflex.utils.LoanParamsCalculator;
 import edu.neoflex.utils.ScoringProcessor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -16,7 +15,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@Log4j2
+@Slf4j
 public class OffersServiceImpl implements OffersService {
 
     ScoringProcessor scoringProcessor;

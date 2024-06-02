@@ -5,7 +5,7 @@ import edu.neoflex.dto.ScoringDataDto;
 import edu.neoflex.exception.AppPrescoringException;
 import edu.neoflex.exception.AppScoringException;
 import edu.neoflex.utils.ScoringProcessor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.time.Period;
 
 @Service
-@Log4j2
+@Slf4j
 public class ScoringProcessorImpl implements ScoringProcessor {
 
     @Value("${loan.rate}")

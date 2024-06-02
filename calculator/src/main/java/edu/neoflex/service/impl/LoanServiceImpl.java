@@ -6,7 +6,7 @@ import edu.neoflex.dto.ScoringDataDto;
 import edu.neoflex.service.LoanService;
 import edu.neoflex.utils.LoanParamsCalculator;
 import edu.neoflex.utils.ScoringProcessor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
-@Log4j2
+@Slf4j
 public class LoanServiceImpl implements LoanService {
 
     ScoringProcessor scoringProcessor;
