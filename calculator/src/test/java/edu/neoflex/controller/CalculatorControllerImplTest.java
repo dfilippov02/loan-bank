@@ -1,7 +1,10 @@
 package edu.neoflex.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.neoflex.controller.impl.CalculatorControllerImpl;
 import edu.neoflex.dto.*;
+import edu.neoflex.dto.enums.Gender;
+import edu.neoflex.dto.enums.MaritalStatus;
 import edu.neoflex.service.LoanService;
 import edu.neoflex.service.OffersService;
 import org.junit.jupiter.api.Test;
@@ -24,8 +27,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(CalculatorController.class)
-class CalculatorControllerTest {
+@WebMvcTest(CalculatorControllerImpl.class)
+class CalculatorControllerImplTest {
 
 
     @Autowired
@@ -103,8 +106,8 @@ class CalculatorControllerTest {
                                 .passportIssueBranch("123")
                                 .birthdate(LocalDate.of(1990, 12, 12))
                                 .amount(BigDecimal.valueOf(100000))
-                                .gender(ScoringDataDto.Gender.MALE)
-                                .maritalStatus(ScoringDataDto.MaritalStatus.MARRIED)
+                                .gender(Gender.MALE)
+                                .maritalStatus(MaritalStatus.MARRIED)
                                 .build())))
                 .andExpect(jsonPath("$.amount").value(100000))
                 .andExpect(jsonPath("$.term").value(20))
