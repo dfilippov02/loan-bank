@@ -1,5 +1,7 @@
 package edu.neoflex.dto;
 
+import edu.neoflex.dto.enums.EmploymentPosition;
+import edu.neoflex.dto.enums.EmploymentStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
@@ -36,16 +38,4 @@ public class EmploymentDto {
     @Schema(description = "Current work experience in months", example = "10")
     private Integer workExperienceCurrent;
 
-    @Schema(name = "Employment status", description = "Issuer employment status", enumAsRef = true, example = "SELF_EMPLOYED")
-    public enum EmploymentStatus{
-        UNEMPLOYED,
-        EMPLOYED,
-        SELF_EMPLOYED,
-        BUSINESSMAN
-    }
-    @Schema(name = "Employment position",description = "Issuer employment position",enumAsRef = true)
-    public enum EmploymentPosition{
-        MIDDLE_LEVEL_MANAGER,
-        TOP_LEVEL_MANAGER,
-    }
 }

@@ -1,5 +1,7 @@
 package edu.neoflex.dto;
 
+import edu.neoflex.dto.enums.Gender;
+import edu.neoflex.dto.enums.MaritalStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
@@ -71,7 +73,7 @@ public class ScoringDataDto {
     private String passportIssueBranch;
 
     @NotNull(message = "Null parameter - maritalStatus")
-    private ScoringDataDto.MaritalStatus maritalStatus;
+    private MaritalStatus maritalStatus;
 
     @NotNull(message = "Null parameter - dependentAmount")
     @Schema(description = "Dependent persons amount")
@@ -91,18 +93,5 @@ public class ScoringDataDto {
     @Schema(description = "Is salary client?")
     private Boolean isSalaryClient;
 
-    @Schema(name = "Gender", description = "Applicant gender", enumAsRef = true)
-    public enum Gender {
-        MALE,
-        FEMALE,
-        NON_BINARY
-    }
-
-    @Schema(name = "Marital status", description = "Applicant marital status", enumAsRef = true)
-    public enum MaritalStatus {
-        MARRIED,
-        DIVORCED,
-        SINGLE
-    }
 }
 
