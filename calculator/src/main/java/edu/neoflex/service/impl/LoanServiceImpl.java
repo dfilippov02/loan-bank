@@ -6,6 +6,7 @@ import edu.neoflex.dto.ScoringDataDto;
 import edu.neoflex.service.LoanService;
 import edu.neoflex.utils.LoanParamsCalculator;
 import edu.neoflex.utils.ScoringProcessor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +17,11 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class LoanServiceImpl implements LoanService {
 
-    ScoringProcessor scoringProcessor;
-    LoanParamsCalculator loanParamsCalculator;
-
-    public LoanServiceImpl(ScoringProcessor scoringProcessor, LoanParamsCalculator loanParamsCalculator) {
-        this.scoringProcessor = scoringProcessor;
-        this.loanParamsCalculator = loanParamsCalculator;
-    }
+    private final ScoringProcessor scoringProcessor;
+    private final LoanParamsCalculator loanParamsCalculator;
 
 
     @Override
