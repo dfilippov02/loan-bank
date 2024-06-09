@@ -44,6 +44,7 @@ class LoanParamsCalculatorImplTest {
     void countMonthPayment() {
         assertEquals(loanParamsCalculator.countMonthPayment(BigDecimal.valueOf(10), BigDecimal.valueOf(100000), 6), BigDecimal.valueOf(17156.14));
         assertEquals(loanParamsCalculator.countMonthPayment(BigDecimal.valueOf(7), BigDecimal.valueOf(100000), 12), BigDecimal.valueOf(8652.67));
+        assertThrows(NullPointerException.class, () -> loanParamsCalculator.countMonthPayment(null,null,6));
     }
 
     @Test
@@ -57,5 +58,6 @@ class LoanParamsCalculatorImplTest {
     void countPercentsAmount() {
         assertEquals(loanParamsCalculator.countPercentsAmount(BigDecimal.valueOf(10000), BigDecimal.valueOf(8)), BigDecimal.valueOf(66.67));
         assertEquals(loanParamsCalculator.countPercentsAmount(BigDecimal.valueOf(17155.14), BigDecimal.valueOf(7)), BigDecimal.valueOf(100.07));
+        assertThrows(NullPointerException.class, () -> loanParamsCalculator.countPercentsAmount(null, null));
     }
 }

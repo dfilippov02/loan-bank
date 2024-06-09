@@ -23,6 +23,11 @@ public class OffersServiceImpl implements OffersService {
     private final ScoringProcessor scoringProcessor;
     private final LoanParamsCalculator loanParamsCalculator;
 
+    /**
+     * Получение списка из 4 кредитных предложений
+     * @param statementRequest - данные клиента
+     * @return - 4 предложения по убыванию процентной ставки
+     */
     @Override
     public List<LoanOfferDto> createOffers(LoanStatementRequestDto statementRequest) {
         log.info("Creating loan offers for {}", statementRequest);
@@ -40,6 +45,13 @@ public class OffersServiceImpl implements OffersService {
     }
 
 
+    /**
+     * Создание предложения в зависимости от входных параметров
+     * @param isSalaryClient - клиент является зарплатным
+     * @param isInsuranceEnabled - страховка включена
+     * @param statementRequest - данные для расчета кредита
+     * @return - предложение с расчитанными параметрами
+     */
     private LoanOfferDto createOffer(Boolean isSalaryClient, Boolean isInsuranceEnabled, LoanStatementRequestDto statementRequest) {
         BigDecimal requestedAmount = statementRequest.getAmount();
         BigDecimal requestedWithInsurance = requestedAmount;

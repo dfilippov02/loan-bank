@@ -2,6 +2,7 @@ package edu.neoflex.utils.impl;
 
 import edu.neoflex.dto.LoanStatementRequestDto;
 import edu.neoflex.dto.ScoringDataDto;
+import edu.neoflex.dto.enums.Gender;
 import edu.neoflex.exception.AppPrescoringException;
 import edu.neoflex.exception.AppScoringException;
 import edu.neoflex.utils.ScoringProcessor;
@@ -58,11 +59,11 @@ public class ScoringProcessorImpl implements ScoringProcessor {
         int years = Period.between(scoringData.getBirthdate(), LocalDate.now()).getYears();
         if(years > 65 || years < 20)
             throw new AppScoringException(new Throwable("The age of the client is not between 20 and 65 years"));
-        if(scoringData.getGender().equals(ScoringDataDto.Gender.FEMALE) && years >= 32 && years <= 60)
+        if(scoringData.getGender().equals(Gender.FEMALE) && years >= 32 && years <= 60)
             rateDelta = rateDelta - 3;
-        if(scoringData.getGender().equals(ScoringDataDto.Gender.MALE) && years >= 30 && years <= 55)
+        if(scoringData.getGender().equals(Gender.MALE) && years >= 30 && years <= 55)
             rateDelta = rateDelta -3;
-        if(scoringData.getGender().equals(ScoringDataDto.Gender.NON_BINARY))
+        if(scoringData.getGender().equals(Gender.NON_BINARY))
             rateDelta = rateDelta + 7;
         if(scoringData.getEmployment().getWorkExperienceCurrent() < 3)
             throw new AppScoringException(new Throwable("The client's current experience is less than 3 months"));

@@ -26,12 +26,22 @@ public class CalculatorControllerImpl implements CalculatorController {
     private final LoanService loanService;
     private final OffersService offersService;
 
+    /**
+     * Получение предложений по кредиту
+     * @param loanStatementRequest -
+     * @return - 4 предложения по кредиту от худшего к лучшему
+     */
     @Override
     @PostMapping("/offers")
     public List<LoanOfferDto> getOffers(@RequestBody @Valid LoanStatementRequestDto loanStatementRequest) {
         return offersService.createOffers(loanStatementRequest);
     }
 
+    /**
+     * Расчет кредита с графиком платежей
+     * @param scoringData -
+     * @return - данные кредита с графиком платежей
+     */
     @Override
     @PostMapping("/calc")
     public CreditDto getCredit(@RequestBody @Valid ScoringDataDto scoringData) {

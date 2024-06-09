@@ -13,9 +13,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
@@ -44,13 +46,8 @@ class OffersServiceImplTest {
                 .build();
 
         offersExpected.add(LoanOfferDto.builder()
-                .rate(BigDecimal.valueOf(7))
-                .isInsuranceEnabled(true)
-                .isSalaryClient(true)
-                .build());
-        offersExpected.add(LoanOfferDto.builder()
-                .rate(BigDecimal.valueOf(8))
-                .isInsuranceEnabled(true)
+                .rate(BigDecimal.valueOf(10))
+                .isInsuranceEnabled(false)
                 .isSalaryClient(false)
                 .build());
         offersExpected.add(LoanOfferDto.builder()
@@ -59,9 +56,14 @@ class OffersServiceImplTest {
                 .isSalaryClient(true)
                 .build());
         offersExpected.add(LoanOfferDto.builder()
-                .rate(BigDecimal.valueOf(10))
-                .isInsuranceEnabled(false)
+                .rate(BigDecimal.valueOf(8))
+                .isInsuranceEnabled(true)
                 .isSalaryClient(false)
+                .build());
+        offersExpected.add(LoanOfferDto.builder()
+                .rate(BigDecimal.valueOf(7))
+                .isInsuranceEnabled(true)
+                .isSalaryClient(true)
                 .build());
 
         offersExpected.forEach(o -> {
@@ -89,6 +91,11 @@ class OffersServiceImplTest {
         offers.forEach(o -> o.setStatementId(null));
         assertEquals(offers.size(), 4);
         assertEquals(offersExpected, offers);
+        assertEquals(offersExpected, offersExpected.stream().sorted(Comparator.comparing(LoanOfferDto::getRate).reversed()).toList());
+    }
 
+    @Test
+    void getOffers_whenNullThenThrowNPE() {
+        assertThrows(NullPointerException.class, () -> offersService.createOffers(null));
     }
 }

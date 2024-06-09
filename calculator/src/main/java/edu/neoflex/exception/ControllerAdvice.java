@@ -1,7 +1,5 @@
-package edu.neoflex.controller;
+package edu.neoflex.exception;
 
-import edu.neoflex.exception.AppPrescoringException;
-import edu.neoflex.exception.AppScoringException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;

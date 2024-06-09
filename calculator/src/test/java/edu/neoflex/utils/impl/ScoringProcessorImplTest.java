@@ -3,6 +3,10 @@ package edu.neoflex.utils.impl;
 import edu.neoflex.dto.EmploymentDto;
 import edu.neoflex.dto.LoanStatementRequestDto;
 import edu.neoflex.dto.ScoringDataDto;
+import edu.neoflex.dto.enums.EmploymentPosition;
+import edu.neoflex.dto.enums.EmploymentStatus;
+import edu.neoflex.dto.enums.Gender;
+import edu.neoflex.dto.enums.MaritalStatus;
 import edu.neoflex.exception.AppPrescoringException;
 import edu.neoflex.exception.AppScoringException;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,13 +62,13 @@ class ScoringProcessorImplTest {
     @Test
     void scoring_whenInvalid_thenThrowAppScoringEx() {
         scoringDataDto  = ScoringDataDto.builder()
-                .maritalStatus(ScoringDataDto.MaritalStatus.MARRIED)
+                .maritalStatus(MaritalStatus.MARRIED)
                 .firstName("Daniel")
                 .lastName("Rudkovsky")
                 .amount(BigDecimal.valueOf(100000))
                 .employment(EmploymentDto.builder()
-                        .employmentStatus(EmploymentDto.EmploymentStatus.SELF_EMPLOYED)
-                        .position(EmploymentDto.EmploymentPosition.MIDDLE_LEVEL_MANAGER)
+                        .employmentStatus(EmploymentStatus.SELF_EMPLOYED)
+                        .position(EmploymentPosition.MIDDLE_LEVEL_MANAGER)
                         .salary(BigDecimal.valueOf(20000))
                         .workExperienceTotal(30)
                         .workExperienceCurrent(10)
@@ -72,7 +76,7 @@ class ScoringProcessorImplTest {
                 )
                 .term(6)
                 .accountNumber("123")
-                .gender(ScoringDataDto.Gender.MALE)
+                .gender(Gender.MALE)
                 .birthdate(LocalDate.of(1800, 12, 12))
                 .build();
         assertThrows(AppScoringException.class, () -> scoringProcessor.scoring(scoringDataDto));
@@ -81,13 +85,13 @@ class ScoringProcessorImplTest {
     @Test
     void scoring_whenValid_thenReturn() {
         scoringDataDto  = ScoringDataDto.builder()
-                .maritalStatus(ScoringDataDto.MaritalStatus.MARRIED)
+                .maritalStatus(MaritalStatus.MARRIED)
                 .firstName("Daniel")
                 .lastName("Rudkovsky")
                 .amount(BigDecimal.valueOf(100000))
                 .employment(EmploymentDto.builder()
-                        .employmentStatus(EmploymentDto.EmploymentStatus.SELF_EMPLOYED)
-                        .position(EmploymentDto.EmploymentPosition.MIDDLE_LEVEL_MANAGER)
+                        .employmentStatus(EmploymentStatus.SELF_EMPLOYED)
+                        .position(EmploymentPosition.MIDDLE_LEVEL_MANAGER)
                         .salary(BigDecimal.valueOf(20000))
                         .workExperienceTotal(30)
                         .workExperienceCurrent(10)
@@ -96,18 +100,18 @@ class ScoringProcessorImplTest {
                 )
                 .term(6)
                 .accountNumber("123")
-                .gender(ScoringDataDto.Gender.MALE)
+                .gender(Gender.MALE)
                 .birthdate(LocalDate.of(1982, 12, 12))
                 .build();
         assertEquals(BigDecimal.valueOf(3), scoringProcessor.scoring(scoringDataDto));
 
-        scoringDataDto.getEmployment().setEmploymentStatus(EmploymentDto.EmploymentStatus.BUSINESSMAN);
-        scoringDataDto.getEmployment().setPosition(EmploymentDto.EmploymentPosition.TOP_LEVEL_MANAGER);
-        scoringDataDto.setGender(ScoringDataDto.Gender.FEMALE);
-        scoringDataDto.setMaritalStatus(ScoringDataDto.MaritalStatus.DIVORCED);
+        scoringDataDto.getEmployment().setEmploymentStatus(EmploymentStatus.BUSINESSMAN);
+        scoringDataDto.getEmployment().setPosition(EmploymentPosition.TOP_LEVEL_MANAGER);
+        scoringDataDto.setGender(Gender.FEMALE);
+        scoringDataDto.setMaritalStatus(MaritalStatus.DIVORCED);
         assertEquals(BigDecimal.valueOf(7), scoringProcessor.scoring(scoringDataDto));
 
-        scoringDataDto.setGender(ScoringDataDto.Gender.NON_BINARY);
+        scoringDataDto.setGender(Gender.NON_BINARY);
         assertEquals(BigDecimal.valueOf(17), scoringProcessor.scoring(scoringDataDto));
     }
 

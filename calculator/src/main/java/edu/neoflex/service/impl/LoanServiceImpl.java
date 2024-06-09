@@ -56,6 +56,14 @@ public class LoanServiceImpl implements LoanService {
 
     }
 
+    /**
+     * Расчет графика ежемесячных платежей
+     * @param scoringData - данные заявителя
+     * @param loanRate - ставка по кредиту
+     * @param monthPayment - ежемесячный платеж
+     * @param remainAmount - запрашиваемая сумма
+     * @return - график ежемесячных платежей
+     */
     private List<PaymentScheduleElementDto> getPaymentSchedule(ScoringDataDto scoringData, BigDecimal loanRate, BigDecimal monthPayment, BigDecimal remainAmount) {
         log.info("Payment schedule creating for {} {}, account number - {}, credit amount - {}",
                 scoringData.getFirstName(),

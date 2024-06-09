@@ -24,6 +24,12 @@ public class LoanParamsCalculatorImpl implements LoanParamsCalculator {
     BigDecimal salaryClientDiscount;
 
 
+    /**
+     * Расчет ставки по кредиту
+     * @param isSalaryClient - зарплатный клиент
+     * @param isInsuranceEnabled - страховка включена
+     * @return - ставка в процентах
+     */
     @Override
     public BigDecimal countLoanRate(Boolean isSalaryClient, Boolean isInsuranceEnabled) {
         BigDecimal loanRate = loanBaseRate;
@@ -36,6 +42,11 @@ public class LoanParamsCalculatorImpl implements LoanParamsCalculator {
     }
 
 
+    /**
+     * Расчет величины стоимости страховки
+     * @param requestedAmount - сумма займа
+     * @return - стоимость страховки
+     */
     @Override
     public BigDecimal countInsuranceCost(BigDecimal requestedAmount) {
         return requestedAmount
@@ -44,6 +55,13 @@ public class LoanParamsCalculatorImpl implements LoanParamsCalculator {
     }
 
 
+    /**
+     * Расчет ежемесячного платежа
+     * @param loanRate - ставка по кредиту
+     * @param amount - объем займа
+     * @param term - период займа в месяцах
+     * @return - сумма ежемесячного платежа
+     */
     @Override
     public BigDecimal countMonthPayment(BigDecimal loanRate, BigDecimal amount, int term) {
         BigDecimal monthPercentRate = loanRate.divide(BigDecimal.valueOf(1200), MathContext.DECIMAL128);
@@ -59,12 +77,24 @@ public class LoanParamsCalculatorImpl implements LoanParamsCalculator {
     }
 
 
+    /**
+     * Расчет полной стоимости кредита
+     * @param monthPayment - сумма ежемесячного платежа
+     * @param term - период
+     * @return - полная сумма кредита
+     */
     @Override
     public BigDecimal countTotalAmount(BigDecimal monthPayment, int term) {
         return monthPayment.multiply(BigDecimal.valueOf(term));
     }
 
 
+    /**
+     * рассчет доли платы по процентам в сумме ежемесячного платежа
+     * @param remainAmount - остаток платежа
+     * @param loanRate - кредитная ставка
+     * @return - сумма выплаты по процентам в конкретный месяц
+     */
     @Override
     public BigDecimal countPercentsAmount(BigDecimal remainAmount, BigDecimal loanRate) {
         BigDecimal monthLoanRate = loanRate.divide(BigDecimal.valueOf(1200), MathContext.DECIMAL128);

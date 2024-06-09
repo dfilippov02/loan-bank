@@ -1,7 +1,6 @@
-package edu.neoflex.controller;
+package edu.neoflex.controller.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.neoflex.controller.impl.CalculatorControllerImpl;
 import edu.neoflex.dto.*;
 import edu.neoflex.dto.enums.Gender;
 import edu.neoflex.dto.enums.MaritalStatus;
@@ -76,6 +75,34 @@ class CalculatorControllerImplTest {
     }
 
     @Test
+    void getOffers_whenInvalid_thenReturnBadRequest() throws Exception {
+        List<LoanOfferDto> offers = new ArrayList<>();
+        offers.add(LoanOfferDto.builder()
+                .requestedAmount(BigDecimal.valueOf(100000))
+                .totalAmount(BigDecimal.valueOf(102000))
+                .term(20)
+                .monthlyPayment(BigDecimal.valueOf(5050))
+                .rate(BigDecimal.valueOf(10))
+                .isSalaryClient(false)
+                .isInsuranceEnabled(false)
+                .build());
+        when(offersService.createOffers(any())).thenReturn(offers);
+        mockMvc.perform(post("/calculator/offers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(LoanStatementRequestDto.builder()
+                                .firstName("Daniel")
+                                .lastName("Rudkovsky")
+                                .passportNumber("testInvalidValue")
+                                .passportSeries("1111")
+                                .birthdate(LocalDate.of(1990, 12, 12))
+                                .amount(BigDecimal.valueOf(100000))
+                                .email("dRudkovsky@test.ru")
+                                .term(6)
+                                .build())))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void getCredit() throws Exception {
 
         when(loanService.calculateLoan(any())).thenReturn(CreditDto.builder()
@@ -114,6 +141,33 @@ class CalculatorControllerImplTest {
                 .andExpect(jsonPath("$.rate").value(10))
                 .andExpect(jsonPath("$.monthlyPayment").value(5050))
                 .andExpect(jsonPath("$.psk").value(102000));
+
+    }
+
+    @Test
+    void getCredit_whenInvalid_thenThrowValidationEx() throws Exception {
+        mockMvc.perform(post("/calculator/calc")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(ScoringDataDto.builder()
+                                .term(20)
+                                .isInsuranceEnabled(false)
+                                .isSalaryClient(false)
+                                .employment(EmploymentDto.builder().build())
+                                .dependentAmount(0)
+                                .passportIssueDate(LocalDate.of(2020, 12, 12))
+                                .firstName("Daniel")
+                                .lastName("Rudkovsky")
+                                .accountNumber("123123")
+                                .passportNumber("testInvalidValue")
+                                .passportSeries("1111")
+                                .passportIssueBranch("123")
+                                .birthdate(LocalDate.of(1980, 12, 12))
+                                .amount(BigDecimal.valueOf(100000))
+                                .gender(Gender.MALE)
+                                .maritalStatus(MaritalStatus.MARRIED)
+                                .build())))
+                .andExpect(status().isBadRequest());
+
 
     }
 }

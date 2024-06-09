@@ -4,6 +4,8 @@ import edu.neoflex.dto.CreditDto;
 import edu.neoflex.dto.EmploymentDto;
 import edu.neoflex.dto.PaymentScheduleElementDto;
 import edu.neoflex.dto.ScoringDataDto;
+import edu.neoflex.dto.enums.EmploymentPosition;
+import edu.neoflex.dto.enums.EmploymentStatus;
 import edu.neoflex.utils.LoanParamsCalculator;
 import edu.neoflex.utils.ScoringProcessor;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 
@@ -48,8 +51,8 @@ class LoanServiceImplTest {
                 .amount(BigDecimal.valueOf(100000))
                 .term(6)
                 .employment(EmploymentDto.builder()
-                        .employmentStatus(EmploymentDto.EmploymentStatus.SELF_EMPLOYED)
-                        .position(EmploymentDto.EmploymentPosition.TOP_LEVEL_MANAGER)
+                        .employmentStatus(EmploymentStatus.SELF_EMPLOYED)
+                        .position(EmploymentPosition.TOP_LEVEL_MANAGER)
                         .salary(BigDecimal.valueOf(30000))
                         .workExperienceCurrent(10)
                         .workExperienceTotal(30)
@@ -143,6 +146,13 @@ class LoanServiceImplTest {
                 .thenReturn(BigDecimal.valueOf(196.71))
                 .thenReturn(BigDecimal.valueOf(98.64));
 
-        assertEquals(loanService.calculateLoan(scoringDataDto), expectedCreditDto);
+        CreditDto creditDto = loanService.calculateLoan(scoringDataDto);
+        assertEquals(creditDto, expectedCreditDto);
+    }
+
+    @Test
+    void calculateLoan_whenNullThenThrowNPE() {
+        assertThrows(NullPointerException.class, () -> loanService.calculateLoan(null));
+
     }
 }
