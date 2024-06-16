@@ -6,4 +6,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public enum EmploymentPosition {
     MIDDLE_LEVEL_MANAGER,
     TOP_LEVEL_MANAGER,
+    WORKER,
+    OWNER
 }
