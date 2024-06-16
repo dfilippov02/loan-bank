@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,7 +31,7 @@ public interface DealController {
                             schema = @Schema(implementation = ControllerAdvice.ErrorDto.class)))}
     )
     @Operation(summary = "Get loan offers")
-    public ResponseEntity<List<LoanOfferDto>> getOffers(@RequestBody LoanStatementRequestDto requestDto);
+    public ResponseEntity<List<LoanOfferDto>> getOffers(@RequestBody @Valid LoanStatementRequestDto requestDto);
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Loan offer selected",
@@ -40,7 +41,7 @@ public interface DealController {
                             schema = @Schema(implementation = ControllerAdvice.ErrorDto.class)))}
     )
     @Operation(summary = "Get loan offers")
-    public void selectOffers(@RequestBody LoanOfferDto offerDto);
+    public void selectOffers(@RequestBody @Valid LoanOfferDto offerDto);
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Loan calculated",
@@ -53,5 +54,5 @@ public interface DealController {
                             schema = @Schema(implementation = ControllerAdvice.ErrorDto.class)))}
     )
     @Operation(summary = "Get loan with payment schedule")
-    public void calculateCredit(@RequestBody FinishRegistrationDto finishRegistrationDto, @PathVariable UUID statementId);
+    public void calculateCredit(@RequestBody @Valid FinishRegistrationDto finishRegistrationDto, @PathVariable UUID statementId);
 }

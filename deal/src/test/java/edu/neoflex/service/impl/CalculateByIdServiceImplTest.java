@@ -92,13 +92,13 @@ class CalculateByIdServiceImplTest {
     public void calculate(){
         when(statementRepository.findById(statementId)).thenReturn(Optional.of(statement));
         when(calculatorApi.calculateCredit(any())).thenReturn(CreditDto.builder().build());
-        when(mapper.getCredit(any(CreditDto.class))).thenReturn(credit);
+        when(mapper.getCreditByDto(any(CreditDto.class))).thenReturn(credit);
 
         calculateByIdService.calculate(finishRegistrationDto, statementId);
 
         verify(statementRepository, times(1)).findById(statementId);
         verify(calculatorApi, times(1)).calculateCredit(any());
-        verify(mapper, times(1)).getCredit(any());
+        verify(mapper, times(1)).getCreditByDto(any());
 
     }
 

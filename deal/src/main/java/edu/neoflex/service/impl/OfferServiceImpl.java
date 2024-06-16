@@ -31,6 +31,11 @@ public class OfferServiceImpl implements OfferService {
     private final CalculatorApi calculatorApi;
     private final EntityDtoMapper mapper;
 
+    /**
+     * Создать заявление и получить предложения по кредиту с помощью Calculator
+     * @param requestDto
+     * @return
+     */
     @Override
     @Transactional
     public List<LoanOfferDto> getOffers(LoanStatementRequestDto requestDto) {
@@ -40,10 +45,10 @@ public class OfferServiceImpl implements OfferService {
                 requestDto.getPassportNumber(),
                 requestDto.getPassportSeries());
 
-        Client client = clientRepository.save(mapper.getClient(requestDto));
+        Client client = clientRepository.save(mapper.getClientByDto(requestDto));
         log.info("Client was saved with id {}", client.getClientId());
 
-        Statement statement = statementRepository.save(mapper.getStatement(client));
+        Statement statement = statementRepository.save(mapper.getStatementForClient(client));
         log.info("Statement was saved with id {}", statement.getStatementId());
 
         List<LoanOfferDto> offers = calculatorApi.getOffers(requestDto);
@@ -53,6 +58,10 @@ public class OfferServiceImpl implements OfferService {
         return offers;
     }
 
+    /**
+     * Выбрать предложение по кредиту и установить в заявление
+     * @param offerDto
+     */
     @Override
     @Transactional
     public void selectOffer(LoanOfferDto offerDto) {
@@ -65,7 +74,7 @@ public class OfferServiceImpl implements OfferService {
 
         log.info("Statement {} was loaded from db", offerDto.getStatementId());
 
-        statement.setApplicationStatus(ApplicationStatus.APPROVED);
+        statement.setStatus(ApplicationStatus.APPROVED);
 
         statement.getStatusHistory().add(StatusHistory.builder()
                 .changeType(ChangeType.AUTOMATIC)

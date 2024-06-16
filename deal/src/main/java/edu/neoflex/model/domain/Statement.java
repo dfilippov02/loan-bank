@@ -43,7 +43,7 @@ public class Statement {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private ApplicationStatus applicationStatus;
+    private ApplicationStatus status;
 
 
     //------------------------------------------------------------------------------------------------------------------

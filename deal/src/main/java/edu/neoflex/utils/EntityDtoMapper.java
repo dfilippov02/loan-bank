@@ -25,7 +25,7 @@ public class EntityDtoMapper {
      * @param requestDto
      * @return
      */
-    public Client getClient(LoanStatementRequestDto requestDto) {
+    public Client getClientByDto(LoanStatementRequestDto requestDto) {
         return Client.builder()
                 .clientId(UUID.randomUUID())
                 .accountNumber(UUID.randomUUID())
@@ -76,7 +76,7 @@ public class EntityDtoMapper {
      * @param creditDto
      * @return
      */
-    public Credit getCredit(CreditDto creditDto){
+    public Credit getCreditByDto(CreditDto creditDto){
         return Credit.builder()
                 .creditId(UUID.randomUUID())
                 .creditStatus(CreditStatus.CALCULATED)
@@ -97,7 +97,7 @@ public class EntityDtoMapper {
      * @param employmentDto
      * @return
      */
-    public Employment getEmployment(EmploymentDto employmentDto) {
+    public Employment getEmploymentByDto(EmploymentDto employmentDto) {
         return Employment.builder()
                 .employment_uuid(UUID.randomUUID())
                 .status(employmentDto.getEmploymentStatus())
@@ -115,7 +115,7 @@ public class EntityDtoMapper {
      * @param finishRegistrationDto
      */
     public void updateClient(Client client, FinishRegistrationDto finishRegistrationDto) {
-        client.setEmployment(getEmployment(finishRegistrationDto.getEmployment()));
+        client.setEmployment(getEmploymentByDto(finishRegistrationDto.getEmployment()));
         client.setDependentAmount(finishRegistrationDto.getDependentAmount());
         client.setGender(finishRegistrationDto.getGender());
         client.setMaritalStatus(finishRegistrationDto.getMaritalStatus());
@@ -129,13 +129,13 @@ public class EntityDtoMapper {
      * @param client
      * @return
      */
-    public Statement getStatement(Client client){
+    public Statement getStatementForClient(Client client){
         Random random = new Random();
         return Statement.builder()
                 .client(client)
                 .statementId(UUID.randomUUID())
                 .sesCode(String.valueOf(random.nextInt(100000, 999999)))
-                .applicationStatus(ApplicationStatus.PREAPPROVAL)
+                .status(ApplicationStatus.PREAPPROVAL)
                 .statusHistory(List.of(StatusHistory.builder()
                         .time(LocalDateTime.now())
                         .changeType(ChangeType.AUTOMATIC)

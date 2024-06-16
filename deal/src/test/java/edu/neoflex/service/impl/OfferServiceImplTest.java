@@ -89,7 +89,7 @@ class OfferServiceImplTest {
     @Test
     void createOffers() {
 
-        when(mapper.getClient(loanStatementRequestDto)).thenReturn(new Client());
+        when(mapper.getClientByDto(loanStatementRequestDto)).thenReturn(new Client());
         when(clientRepository.save(any())).thenReturn(new Client());
         when(statementRepository.save(any())).thenReturn(Statement.builder()
                 .statementId(id)

@@ -45,7 +45,7 @@ class EntityDtoMapperTest {
                 .passportNumber("0000000")
                 .build();
 
-        Client client = mapper.getClient(requestDTO);
+        Client client = mapper.getClientByDto(requestDTO);
 
 
         assertEquals(requestDTO.getFirstName(), client.getFirstName());
@@ -99,7 +99,7 @@ class EntityDtoMapperTest {
                 .statementId(id)
                 .client(Client.builder().build())
                 .appliedOffer(loanOfferDto)
-                .applicationStatus(ApplicationStatus.APPROVED)
+                .status(ApplicationStatus.APPROVED)
                 .build();
 
         ScoringDataDto scoringDataDto = mapper.getScoringDataDto(statement, client, employmentDto);
@@ -126,7 +126,7 @@ class EntityDtoMapperTest {
                 .term(6)
                 .build();
 
-        Credit credit = mapper.getCredit(creditDto);
+        Credit credit = mapper.getCreditByDto(creditDto);
 
         assertEquals(credit.getAmount(), creditDto.getAmount());
         assertEquals(credit.getIsSalaryClient(), creditDto.getIsSalaryClient());
@@ -134,7 +134,7 @@ class EntityDtoMapperTest {
         assertEquals(credit.getPsk(), creditDto.getPsk());
         assertEquals(credit.getRate(), creditDto.getRate());
 
-        assertThrows(NullPointerException.class, () -> mapper.getCredit(null));
+        assertThrows(NullPointerException.class, () -> mapper.getCreditByDto(null));
     }
 
     @Test
@@ -148,13 +148,13 @@ class EntityDtoMapperTest {
                 .salary(BigDecimal.valueOf(40000))
                 .build();
 
-        Employment employment = mapper.getEmployment(employmentDto);
+        Employment employment = mapper.getEmploymentByDto(employmentDto);
 
         assertEquals(employment.getEmploymentInn(), employmentDto.getEmployerINN());
         assertEquals(employment.getPosition(), employmentDto.getPosition());
         assertEquals(employment.getSalary(), employmentDto.getSalary());
 
-        assertThrows(NullPointerException.class, () -> mapper.getEmployment(null));
+        assertThrows(NullPointerException.class, () -> mapper.getEmploymentByDto(null));
     }
 
 
@@ -162,9 +162,9 @@ class EntityDtoMapperTest {
     public void getStatement(){
         Client client = Client.builder().build();
 
-        Statement statement = mapper.getStatement(client);
+        Statement statement = mapper.getStatementForClient(client);
 
-        assertEquals(statement.getApplicationStatus(), ApplicationStatus.PREAPPROVAL);
+        assertEquals(statement.getStatus(), ApplicationStatus.PREAPPROVAL);
         assertEquals(statement.getClient(), client);
         assertEquals(statement.getStatusHistory().size(), 1);
     }

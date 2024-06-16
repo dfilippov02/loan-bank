@@ -33,6 +33,11 @@ public class CalculateByIdServiceImpl implements CalculateByIdService {
     private final CalculatorApi calculatorApi;
 
 
+    /**
+     * Вычисление данных кредита по id заявления (для вычисления берутся данные из appliedOffer)
+     * @param finishRegistrationDto
+     * @param statementId
+     */
     @Override
     @Transactional
     public void calculate(FinishRegistrationDto finishRegistrationDto, UUID statementId) {
@@ -43,6 +48,10 @@ public class CalculateByIdServiceImpl implements CalculateByIdService {
                 .orElseThrow(() -> new AppException(new Throwable("Invalid statement id")));
 
         log.info("Statement {} was loaded from db", statementId);
+
+        if(statement.getAppliedOffer()==null){
+            throw new AppException(new Throwable("Applied offer for statement not exist"));
+        }
 
         Client client = statement.getClient();
         mapper.updateClient(client, finishRegistrationDto);
@@ -55,7 +64,7 @@ public class CalculateByIdServiceImpl implements CalculateByIdService {
                 creditDto.getAmount(),
                 creditDto.getMonthlyPayment());
 
-        Credit credit = mapper.getCredit(creditDto);
+        Credit credit = mapper.getCreditByDto(creditDto);
         credit.setStatement(statement);
         credit.setCreditStatus(CreditStatus.CALCULATED);
         statement.getStatusHistory().add(StatusHistory.builder()

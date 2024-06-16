@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
@@ -24,13 +25,14 @@ public class FinishRegistrationDto {
         MaritalStatus maritalStatus;
 
         @NotNull(message = "Null parameter - dependentAmount")
+        @Min(value = 0, message = "dependentAmount must be 0 or more")
         @Schema(description = "Dependent persons amount")
         Integer dependentAmount;
 
 
         @NotNull(message = "Null parameter - passportIssueDate")
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-        @Past(message = "PassportIssueDate must be in path")
+        @Past(message = "PassportIssueDate must be in past")
         @Schema(description = "Date of issue of the passport", example = "2020-12-12")
         private LocalDate passportIssueDate;
 
