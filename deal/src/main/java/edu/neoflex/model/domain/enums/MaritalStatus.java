@@ -1,4 +1,4 @@
-package edu.neoflex.dto.enums;
+package edu.neoflex.model.domain.enums;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
