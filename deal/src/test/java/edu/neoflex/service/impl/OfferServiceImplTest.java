@@ -1,11 +1,11 @@
 package edu.neoflex.service.impl;
 
 import edu.neoflex.clientApi.CalculatorApi;
+import edu.neoflex.domain.Client;
+import edu.neoflex.domain.Statement;
+import edu.neoflex.dto.LoanOfferDto;
+import edu.neoflex.dto.LoanStatementRequestDto;
 import edu.neoflex.exception.AppException;
-import edu.neoflex.model.domain.Client;
-import edu.neoflex.model.domain.Statement;
-import edu.neoflex.model.dto.LoanOfferDto;
-import edu.neoflex.model.dto.LoanStatementRequestDto;
 import edu.neoflex.repository.ClientRepository;
 import edu.neoflex.repository.StatementRepository;
 import edu.neoflex.utils.EntityDtoMapper;

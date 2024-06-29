@@ -1,9 +1,9 @@
 package edu.neoflex.controller.impl;
 
-import edu.neoflex.controller.DealController;
-import edu.neoflex.model.dto.FinishRegistrationDto;
-import edu.neoflex.model.dto.LoanOfferDto;
-import edu.neoflex.model.dto.LoanStatementRequestDto;
+import edu.neoflex.controller.DealApi;
+import edu.neoflex.dto.FinishRegistrationDto;
+import edu.neoflex.dto.LoanOfferDto;
+import edu.neoflex.dto.LoanStatementRequestDto;
 import edu.neoflex.service.CalculateByIdService;
 import edu.neoflex.service.OfferService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @RequestMapping("/deal")
 @Validated
 @RequiredArgsConstructor
-public class DealControllerImpl implements DealController {
+public class DealController implements DealApi {
 
     private final OfferService offerService;
     private final CalculateByIdService calculateByIdService;
@@ -29,6 +29,7 @@ public class DealControllerImpl implements DealController {
      * @param requestDto
      * @return
      */
+    @Override
     @PostMapping("/statement")
     public ResponseEntity<List<LoanOfferDto>> getOffers(@RequestBody @Valid LoanStatementRequestDto requestDto){
         return ResponseEntity.ok(offerService.getOffers(requestDto));
@@ -38,6 +39,7 @@ public class DealControllerImpl implements DealController {
      * Выбор предложения для заявления
      * @param offerDto
      */
+    @Override
     @PostMapping("/offer/select")
     public void selectOffers(@RequestBody @Valid LoanOfferDto offerDto){
         offerService.selectOffer(offerDto);
@@ -48,6 +50,7 @@ public class DealControllerImpl implements DealController {
      * @param finishRegistrationDto
      * @param statementId
      */
+    @Override
     @PostMapping("/calculate/{statementId}")
     public void calculateCredit(@RequestBody @Valid FinishRegistrationDto finishRegistrationDto, @PathVariable UUID statementId){
         calculateByIdService.calculate(finishRegistrationDto, statementId);

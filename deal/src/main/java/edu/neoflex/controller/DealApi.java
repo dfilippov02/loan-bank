@@ -1,9 +1,9 @@
 package edu.neoflex.controller;
 
+import edu.neoflex.dto.FinishRegistrationDto;
+import edu.neoflex.dto.LoanOfferDto;
+import edu.neoflex.dto.LoanStatementRequestDto;
 import edu.neoflex.exception.ControllerAdvice;
-import edu.neoflex.model.dto.FinishRegistrationDto;
-import edu.neoflex.model.dto.LoanOfferDto;
-import edu.neoflex.model.dto.LoanStatementRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
-public interface DealController {
+public interface DealApi {
 
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Loan offers created",

@@ -1,7 +1,7 @@
-package edu.neoflex.model.domain.jsonb;
+package edu.neoflex.domain.jsonb;
 
-import edu.neoflex.model.domain.enums.ApplicationStatus;
-import edu.neoflex.model.domain.enums.ChangeType;
+import edu.neoflex.domain.enums.ApplicationStatus;
+import edu.neoflex.domain.enums.ChangeType;
 import lombok.Builder;
 import lombok.Data;
 

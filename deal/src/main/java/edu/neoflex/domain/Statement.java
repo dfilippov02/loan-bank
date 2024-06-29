@@ -1,8 +1,8 @@
-package edu.neoflex.model.domain;
+package edu.neoflex.domain;
 
-import edu.neoflex.model.domain.enums.ApplicationStatus;
-import edu.neoflex.model.domain.jsonb.StatusHistory;
-import edu.neoflex.model.dto.LoanOfferDto;
+import edu.neoflex.domain.enums.ApplicationStatus;
+import edu.neoflex.domain.jsonb.StatusHistory;
+import edu.neoflex.dto.LoanOfferDto;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

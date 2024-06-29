@@ -1,7 +1,7 @@
-package edu.neoflex.model.domain;
+package edu.neoflex.domain;
 
-import edu.neoflex.model.domain.enums.CreditStatus;
-import edu.neoflex.model.dto.PaymentScheduleElementDto;
+import edu.neoflex.domain.enums.CreditStatus;
+import edu.neoflex.dto.PaymentScheduleElementDto;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import lombok.*;
 import org.hibernate.annotations.Type;

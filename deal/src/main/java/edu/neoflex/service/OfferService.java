@@ -1,7 +1,7 @@
 package edu.neoflex.service;
 
-import edu.neoflex.model.dto.LoanOfferDto;
-import edu.neoflex.model.dto.LoanStatementRequestDto;
+import edu.neoflex.dto.LoanOfferDto;
+import edu.neoflex.dto.LoanStatementRequestDto;
 
 import java.util.List;
 

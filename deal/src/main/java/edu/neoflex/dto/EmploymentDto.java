@@ -1,7 +1,7 @@
-package edu.neoflex.model.dto;
+package edu.neoflex.dto;
 
-import edu.neoflex.model.domain.enums.EmploymentPosition;
-import edu.neoflex.model.domain.enums.EmploymentStatus;
+import edu.neoflex.domain.enums.EmploymentPosition;
+import edu.neoflex.domain.enums.EmploymentStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;

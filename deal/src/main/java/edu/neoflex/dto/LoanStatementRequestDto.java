@@ -1,7 +1,5 @@
-package edu.neoflex.model.dto;
+package edu.neoflex.dto;
 
-import edu.neoflex.model.domain.enums.Gender;
-import edu.neoflex.model.domain.enums.MaritalStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
@@ -16,8 +14,8 @@ import java.time.LocalDate;
 
 @Data
 @Builder
-@Schema(name = "Scoring data", description = "dto for scoring and loan calculation")
-public class ScoringDataDto {
+@Schema(name = "Loan statement request", description = "dto for prescoring and offers generation")
+public class LoanStatementRequestDto {
 
     @NotNull(message = "Null parameter - amount")
     @Min(value = 30000, message = "amount is less then 30000")
@@ -25,7 +23,7 @@ public class ScoringDataDto {
     private BigDecimal amount;
 
     @NotNull(message = "Null parameter - term")
-    @Min(value = 6, message = "minimal term is 6 months")
+    @Min(value = 6, message = "Minimal term is 6 months")
     @Schema(description = "Period in months")
     private Integer term;
 
@@ -43,12 +41,14 @@ public class ScoringDataDto {
     @Schema(description = "Applicant middlename if exists", example = "Ivanov")
     private String middleName;
 
-    @NotNull(message = "Null parameter - gender")
-    private Gender gender;
+    @NotNull(message = "Null parameter - email")
+    @Pattern(regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$", message = "Wrong format of email")
+    @Schema(description = "Applicant email", example = "testtest@test.ru")
+    private String email;
 
     @NotNull(message = "Null parameter - birthdate")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Past(message = "Birthdate must be in past")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Schema(description = "Applicant birthdate (format YYYY-MM-DD)", example = "2002-12-12")
     private LocalDate birthdate;
 
@@ -61,37 +61,4 @@ public class ScoringDataDto {
     @Pattern(regexp = "[\\d]{6}", message = "Wrong format of passportNumber")
     @Schema(description = "Passport number", example = "000000")
     private String passportNumber;
-
-    @NotNull(message = "Null parameter - passportIssueDate")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @Past(message = "PassportIssueDate must be in path")
-    @Schema(description = "Date of issue of the passport", example = "2020-12-12")
-    private LocalDate passportIssueDate;
-
-    @NotNull(message = "Null parameter - passportIssueBranch")
-    @Schema(description = "Passport control department")
-    private String passportIssueBranch;
-
-    @NotNull(message = "Null parameter - maritalStatus")
-    private MaritalStatus maritalStatus;
-
-    @NotNull(message = "Null parameter - dependentAmount")
-    @Schema(description = "Dependent persons amount")
-    private Integer dependentAmount;
-
-    @NotNull(message = "Null parameter - employment")
-    private EmploymentDto employment;
-
-    @NotNull(message = "Null parameter - accountNumber")
-    private String accountNumber;
-
-    @NotNull(message = "Null parameter - isInsuranceEnabled")
-    @Schema(description = "Is insurance enabled?")
-    private Boolean isInsuranceEnabled;
-
-    @NotNull(message = "Null parameter - isSalaryClient")
-    @Schema(description = "Is salary client?")
-    private Boolean isSalaryClient;
-
 }
-

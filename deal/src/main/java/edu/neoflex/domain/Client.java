@@ -1,9 +1,9 @@
-package edu.neoflex.model.domain;
+package edu.neoflex.domain;
 
-import edu.neoflex.model.domain.enums.Gender;
-import edu.neoflex.model.domain.enums.MaritalStatus;
-import edu.neoflex.model.domain.jsonb.Employment;
-import edu.neoflex.model.domain.jsonb.Passport;
+import edu.neoflex.domain.enums.Gender;
+import edu.neoflex.domain.enums.MaritalStatus;
+import edu.neoflex.domain.jsonb.Employment;
+import edu.neoflex.domain.jsonb.Passport;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import lombok.*;
 import org.hibernate.annotations.Type;

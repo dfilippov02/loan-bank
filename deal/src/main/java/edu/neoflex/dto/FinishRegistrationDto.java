@@ -1,7 +1,7 @@
-package edu.neoflex.model.dto;
+package edu.neoflex.dto;
 
-import edu.neoflex.model.domain.enums.Gender;
-import edu.neoflex.model.domain.enums.MaritalStatus;
+import edu.neoflex.domain.enums.Gender;
+import edu.neoflex.domain.enums.MaritalStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;

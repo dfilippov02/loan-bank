@@ -1,16 +1,16 @@
 package edu.neoflex.service.impl;
 
 import edu.neoflex.clientApi.CalculatorApi;
+import edu.neoflex.domain.Credit;
+import edu.neoflex.domain.Statement;
+import edu.neoflex.domain.enums.CreditStatus;
+import edu.neoflex.domain.enums.Gender;
+import edu.neoflex.domain.enums.MaritalStatus;
+import edu.neoflex.dto.CreditDto;
+import edu.neoflex.dto.EmploymentDto;
+import edu.neoflex.dto.FinishRegistrationDto;
+import edu.neoflex.dto.LoanOfferDto;
 import edu.neoflex.exception.AppException;
-import edu.neoflex.model.domain.Credit;
-import edu.neoflex.model.domain.Statement;
-import edu.neoflex.model.domain.enums.CreditStatus;
-import edu.neoflex.model.domain.enums.Gender;
-import edu.neoflex.model.domain.enums.MaritalStatus;
-import edu.neoflex.model.dto.CreditDto;
-import edu.neoflex.model.dto.EmploymentDto;
-import edu.neoflex.model.dto.FinishRegistrationDto;
-import edu.neoflex.model.dto.LoanOfferDto;
 import edu.neoflex.repository.StatementRepository;
 import edu.neoflex.utils.EntityDtoMapper;
 import org.junit.jupiter.api.BeforeEach;

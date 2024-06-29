@@ -1,7 +1,7 @@
-package edu.neoflex.model.domain.jsonb;
+package edu.neoflex.domain.jsonb;
 
-import edu.neoflex.model.domain.enums.EmploymentPosition;
-import edu.neoflex.model.domain.enums.EmploymentStatus;
+import edu.neoflex.domain.enums.EmploymentPosition;
+import edu.neoflex.domain.enums.EmploymentStatus;
 import lombok.Builder;
 import lombok.Data;
 
