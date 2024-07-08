@@ -4,7 +4,6 @@ import edu.neoflex.dto.LoanOfferDto;
 import edu.neoflex.dto.LoanStatementRequestDto;
 import edu.neoflex.service.OffersService;
 import edu.neoflex.utils.LoanParamsCalculator;
-import edu.neoflex.utils.ScoringProcessor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OffersServiceImpl implements OffersService {
 
-    private final ScoringProcessor scoringProcessor;
     private final LoanParamsCalculator loanParamsCalculator;
 
     /**
@@ -31,7 +29,6 @@ public class OffersServiceImpl implements OffersService {
     @Override
     public List<LoanOfferDto> createOffers(LoanStatementRequestDto statementRequest) {
         log.info("Creating loan offers for {}", statementRequest);
-        scoringProcessor.prescoring(statementRequest);
         List<LoanOfferDto> offerDtoList = List.of(
                 createOffer(true, true, statementRequest),
                 createOffer(false, true, statementRequest),

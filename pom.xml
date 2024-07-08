@@ -6,6 +6,7 @@
     <modules>
         <module>calculator</module>
 		<module>deal</module>
+        <module>statement</module>
     </modules>
     <parent>
 		<groupId>org.springframework.boot</groupId>

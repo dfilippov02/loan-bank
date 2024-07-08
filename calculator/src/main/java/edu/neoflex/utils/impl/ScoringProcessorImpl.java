@@ -1,9 +1,7 @@
 package edu.neoflex.utils.impl;
 
-import edu.neoflex.dto.LoanStatementRequestDto;
 import edu.neoflex.dto.ScoringDataDto;
 import edu.neoflex.dto.enums.Gender;
-import edu.neoflex.exception.AppPrescoringException;
 import edu.neoflex.exception.AppScoringException;
 import edu.neoflex.utils.ScoringProcessor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,18 +19,6 @@ public class ScoringProcessorImpl implements ScoringProcessor {
     @Value("${loan.rate}")
     BigDecimal loanBaseRate;
 
-
-    public void prescoring(LoanStatementRequestDto loanStatementRequest) {
-        log.info("Started prescoring for {} {}",
-                loanStatementRequest.getFirstName(),
-                loanStatementRequest.getLastName());
-        if (Period.between(loanStatementRequest.getBirthdate(), LocalDate.now()).getYears() < 18) {
-            throw new AppPrescoringException(new Throwable("Age less then 18 years"));
-        }
-        log.info("Finished prescoring for {} {}",
-                loanStatementRequest.getFirstName(),
-                loanStatementRequest.getLastName());
-    }
 
 
     public BigDecimal scoring(ScoringDataDto scoringData) {

@@ -1,6 +1,6 @@
 package edu.neoflex.service;
 
-import edu.neoflex.model.dto.FinishRegistrationDto;
+import edu.neoflex.dto.FinishRegistrationDto;
 
 import java.util.UUID;
 

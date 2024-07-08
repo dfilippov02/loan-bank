@@ -1,17 +1,17 @@
 package edu.neoflex.service.impl;
 
 import edu.neoflex.clientApi.CalculatorApi;
+import edu.neoflex.domain.Client;
+import edu.neoflex.domain.Credit;
+import edu.neoflex.domain.Statement;
+import edu.neoflex.domain.enums.ApplicationStatus;
+import edu.neoflex.domain.enums.ChangeType;
+import edu.neoflex.domain.enums.CreditStatus;
+import edu.neoflex.domain.jsonb.StatusHistory;
+import edu.neoflex.dto.CreditDto;
+import edu.neoflex.dto.FinishRegistrationDto;
+import edu.neoflex.dto.ScoringDataDto;
 import edu.neoflex.exception.AppException;
-import edu.neoflex.model.domain.Client;
-import edu.neoflex.model.domain.Credit;
-import edu.neoflex.model.domain.Statement;
-import edu.neoflex.model.domain.enums.ApplicationStatus;
-import edu.neoflex.model.domain.enums.ChangeType;
-import edu.neoflex.model.domain.enums.CreditStatus;
-import edu.neoflex.model.domain.jsonb.StatusHistory;
-import edu.neoflex.model.dto.CreditDto;
-import edu.neoflex.model.dto.FinishRegistrationDto;
-import edu.neoflex.model.dto.ScoringDataDto;
 import edu.neoflex.repository.StatementRepository;
 import edu.neoflex.service.CalculateByIdService;
 import edu.neoflex.utils.EntityDtoMapper;
@@ -55,7 +55,7 @@ public class CalculateByIdServiceImpl implements CalculateByIdService {
 
         Client client = statement.getClient();
         mapper.updateClient(client, finishRegistrationDto);
-        ScoringDataDto scoringDataDto = mapper.getScoringDataDto(statement, client, finishRegistrationDto.getEmployment());
+        ScoringDataDto scoringDataDto = mapper.getScoringDataDto(statement, client);
         CreditDto creditDto;
         creditDto = calculatorApi.calculateCredit(scoringDataDto);
 
@@ -67,6 +67,7 @@ public class CalculateByIdServiceImpl implements CalculateByIdService {
         Credit credit = mapper.getCreditByDto(creditDto);
         credit.setStatement(statement);
         credit.setCreditStatus(CreditStatus.CALCULATED);
+        statement.setStatus(ApplicationStatus.CC_APPROVED);
         statement.getStatusHistory().add(StatusHistory.builder()
                 .changeType(ChangeType.AUTOMATIC)
                 .time(LocalDateTime.now())

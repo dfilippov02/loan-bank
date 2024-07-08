@@ -1,13 +1,11 @@
 package edu.neoflex.utils.impl;
 
 import edu.neoflex.dto.EmploymentDto;
-import edu.neoflex.dto.LoanStatementRequestDto;
 import edu.neoflex.dto.ScoringDataDto;
 import edu.neoflex.dto.enums.EmploymentPosition;
 import edu.neoflex.dto.enums.EmploymentStatus;
 import edu.neoflex.dto.enums.Gender;
 import edu.neoflex.dto.enums.MaritalStatus;
-import edu.neoflex.exception.AppPrescoringException;
 import edu.neoflex.exception.AppScoringException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +17,8 @@ import org.springframework.test.util.ReflectionTestUtils;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith({MockitoExtension.class})
 class ScoringProcessorImplTest {
@@ -29,28 +28,11 @@ class ScoringProcessorImplTest {
 
     ScoringDataDto scoringDataDto;
 
-    LoanStatementRequestDto loanStatementRequestDto;
-
     @BeforeEach
     void init(){
         ReflectionTestUtils.setField(scoringProcessor, "loanBaseRate", BigDecimal.valueOf(10));
     }
 
-    @Test
-    void prescoring_whenInvalid_thenThrowAppPrescoringEx() {
-        loanStatementRequestDto = LoanStatementRequestDto.builder()
-                .birthdate(LocalDate.of(2100, 12, 12))
-                .build();
-        assertThrows(AppPrescoringException.class, () -> scoringProcessor.prescoring(loanStatementRequestDto));
-    }
-
-    @Test
-    void prescoring_whenValid_thenNotThrow() {
-        loanStatementRequestDto = LoanStatementRequestDto.builder()
-                .birthdate(LocalDate.of(2002, 12, 12))
-                .build();
-        assertDoesNotThrow(() -> scoringProcessor.prescoring(loanStatementRequestDto));
-    }
 
     @Test
     void scoring_whenNull_thenThrowNPE() {

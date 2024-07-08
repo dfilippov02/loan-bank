@@ -1,15 +1,16 @@
 package edu.neoflex.utils;
 
-import edu.neoflex.model.domain.Client;
-import edu.neoflex.model.domain.Credit;
-import edu.neoflex.model.domain.Statement;
-import edu.neoflex.model.domain.enums.ApplicationStatus;
-import edu.neoflex.model.domain.enums.ChangeType;
-import edu.neoflex.model.domain.enums.CreditStatus;
-import edu.neoflex.model.domain.jsonb.Employment;
-import edu.neoflex.model.domain.jsonb.Passport;
-import edu.neoflex.model.domain.jsonb.StatusHistory;
-import edu.neoflex.model.dto.*;
+import edu.neoflex.domain.Client;
+import edu.neoflex.domain.Credit;
+import edu.neoflex.domain.Statement;
+import edu.neoflex.domain.enums.ApplicationStatus;
+import edu.neoflex.domain.enums.ChangeType;
+import edu.neoflex.domain.enums.CreditStatus;
+import edu.neoflex.domain.jsonb.StatusHistory;
+import edu.neoflex.dto.CreditDto;
+import edu.neoflex.dto.FinishRegistrationDto;
+import edu.neoflex.dto.LoanStatementRequestDto;
+import edu.neoflex.dto.ScoringDataDto;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -20,55 +21,32 @@ import java.util.UUID;
 @Component
 public class EntityDtoMapper {
 
+    private final ClientMapper clientMapper = ClientMapper.INSTANCE;
+    private final ClientToScoringDataMapper scoringDataMapper = ClientToScoringDataMapper.INSTANCE;
+    private final CreditMapper creditMapper = CreditMapper.INSTANCE;
+    private final EmploymentMapper employmentMapper = EmploymentMapper.INSTANCE;
+
     /**
      * Получение сущности client из requestDto
      * @param requestDto
      * @return
      */
     public Client getClientByDto(LoanStatementRequestDto requestDto) {
-        return Client.builder()
-                .clientId(UUID.randomUUID())
-                .accountNumber(UUID.randomUUID())
-                .birthdate(requestDto.getBirthdate())
-                .firstName(requestDto.getFirstName())
-                .lastName(requestDto.getLastName())
-                .middleName(requestDto.getMiddleName())
-                .passport(Passport.builder()
-                        .passport_uuid(UUID.randomUUID())
-                        .number(requestDto.getPassportNumber())
-                        .series(requestDto.getPassportSeries())
-                        .build())
-                .build();
+        Client client = clientMapper.toEntity(requestDto);
+        client.setClientId(UUID.randomUUID());
+        client.getPassport().setPassport_uuid(UUID.randomUUID());
+        return client;
     }
 
     /**
      * Получение ScoringDataDto из данных клиента и заявления
      * @param statement
      * @param client
-     * @param employment
      * @return
      */
-    public ScoringDataDto getScoringDataDto(Statement statement, Client client, EmploymentDto employment){
-        return ScoringDataDto.builder()
-                .amount(statement.getAppliedOffer().getRequestedAmount())
-                .term(statement.getAppliedOffer().getTerm())
-                .firstName(client.getFirstName())
-                .lastName(client.getLastName())
-                .middleName(client.getMiddleName())
-                .dependentAmount(client.getDependentAmount())
-                .accountNumber(client.getAccountNumber().toString())
-                .gender(client.getGender())
-                .birthdate(client.getBirthdate())
-                .employment(employment)
-                .maritalStatus(client.getMaritalStatus())
-                .passportNumber(client.getPassport().getNumber())
-                .passportSeries(client.getPassport().getSeries())
-                .passportIssueBranch(client.getPassport().getIssueBranch())
-                .passportIssueDate(client.getPassport().getIssueDate())
-                .isSalaryClient(statement.getAppliedOffer().getIsSalaryClient())
-                .isInsuranceEnabled(statement.getAppliedOffer().getIsInsuranceEnabled())
-                .build();
-
+    public ScoringDataDto getScoringDataDto(Statement statement, Client client){
+        ScoringDataDto scoringDataDto = scoringDataMapper.map(client, statement);
+        return scoringDataDto;
     }
 
     /**
@@ -77,37 +55,12 @@ public class EntityDtoMapper {
      * @return
      */
     public Credit getCreditByDto(CreditDto creditDto){
-        return Credit.builder()
-                .creditId(UUID.randomUUID())
-                .creditStatus(CreditStatus.CALCULATED)
-                .amount(creditDto.getAmount())
-                .monthlyPayment(creditDto.getMonthlyPayment())
-                .psk(creditDto.getPsk())
-                .paymentSchedule(creditDto.getPaymentSchedule())
-                .insuranceEnabled(creditDto.getIsInsuranceEnabled())
-                .isSalaryClient(creditDto.getIsSalaryClient())
-                .rate(creditDto.getRate())
-                .term(creditDto.getTerm())
-                .build();
+        Credit credit = creditMapper.toEntity(creditDto);
+        credit.setCreditId(UUID.randomUUID());
+        credit.setCreditStatus(CreditStatus.CALCULATED);
+        return credit;
     }
 
-
-    /**
-     * Формирование сущности Employment из DTO
-     * @param employmentDto
-     * @return
-     */
-    public Employment getEmploymentByDto(EmploymentDto employmentDto) {
-        return Employment.builder()
-                .employment_uuid(UUID.randomUUID())
-                .status(employmentDto.getEmploymentStatus())
-                .employmentInn(employmentDto.getEmployerINN())
-                .salary(employmentDto.getSalary())
-                .position(employmentDto.getPosition())
-                .workExperienceTotal(employmentDto.getWorkExperienceTotal())
-                .workExperienceCurrent(employmentDto.getWorkExperienceCurrent())
-                .build();
-    }
 
     /**
      * Добавление данных в сущость client из finishRegistrationDto
@@ -115,7 +68,7 @@ public class EntityDtoMapper {
      * @param finishRegistrationDto
      */
     public void updateClient(Client client, FinishRegistrationDto finishRegistrationDto) {
-        client.setEmployment(getEmploymentByDto(finishRegistrationDto.getEmployment()));
+        client.setEmployment(employmentMapper.toEntity(finishRegistrationDto.getEmployment()));
         client.setDependentAmount(finishRegistrationDto.getDependentAmount());
         client.setGender(finishRegistrationDto.getGender());
         client.setMaritalStatus(finishRegistrationDto.getMaritalStatus());
