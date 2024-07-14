@@ -8,6 +8,7 @@ import edu.neoflex.dto.LoanStatementRequestDto;
 import edu.neoflex.exception.AppException;
 import edu.neoflex.repository.ClientRepository;
 import edu.neoflex.repository.StatementRepository;
+import edu.neoflex.service.SendDocsService;
 import edu.neoflex.utils.EntityDtoMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,8 @@ class OfferServiceImplTest {
     private CalculatorApi calculatorApi;
     @Mock
     private EntityDtoMapper mapper;
+    @Mock
+    private SendDocsService sendDocsService;
 
     @InjectMocks
     OfferServiceImpl offerService;

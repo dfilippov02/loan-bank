@@ -38,6 +38,9 @@ public class Client {
     @Column(name = "birth_date")
     private LocalDate birthdate;
 
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "dependent_amount")
     private Integer dependentAmount;
 

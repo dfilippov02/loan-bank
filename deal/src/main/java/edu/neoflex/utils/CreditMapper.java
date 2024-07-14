@@ -13,5 +13,8 @@ public interface CreditMapper {
     @Mapping(target = "insuranceEnabled", source = "isInsuranceEnabled")
     Credit toEntity(CreditDto creditDto);
 
+    @Mapping(target = "isInsuranceEnabled", source = "insuranceEnabled")
+    CreditDto toDto(Credit credit);
+
 
 }
