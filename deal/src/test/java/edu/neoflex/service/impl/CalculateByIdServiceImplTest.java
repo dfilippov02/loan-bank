@@ -12,6 +12,7 @@ import edu.neoflex.dto.FinishRegistrationDto;
 import edu.neoflex.dto.LoanOfferDto;
 import edu.neoflex.exception.AppException;
 import edu.neoflex.repository.StatementRepository;
+import edu.neoflex.service.SendDocsService;
 import edu.neoflex.utils.EntityDtoMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,6 +42,9 @@ class CalculateByIdServiceImplTest {
 
     @Mock
     EntityDtoMapper mapper;
+
+    @Mock
+    SendDocsService sendDocsService;
 
     @InjectMocks
     CalculateByIdServiceImpl calculateByIdService;
