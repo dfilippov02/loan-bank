@@ -1,5 +1,6 @@
 package edu.neoflex.controller;
 
+import edu.neoflex.domain.Statement;
 import edu.neoflex.dto.FinishRegistrationDto;
 import edu.neoflex.dto.LoanOfferDto;
 import edu.neoflex.dto.LoanStatementRequestDto;
@@ -11,7 +12,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -58,12 +58,18 @@ public interface DealApi {
     @Operation(summary = "Get loan with payment schedule")
     public void calculateCredit(@RequestBody @Valid FinishRegistrationDto finishRegistrationDto, @PathVariable UUID statementId);
 
-    @PostMapping("/document/{statementId}/send")
+    @Operation(summary = "Send documents by statement id")
     void send(@PathVariable UUID statementId);
 
-    @PostMapping("/document/{statementId}/sign")
+    @Operation(summary = "Send code for signing")
     void sign(@PathVariable UUID statementId);
 
-    @PostMapping("/document/{statementId}/code")
+    @Operation(summary = "Sign documents")
     void code(@PathVariable UUID statementId, @RequestParam String code);
+
+    @Operation(summary = "Get statement by id")
+    ResponseEntity<Statement> getStatement(@PathVariable UUID statementId);
+
+    @Operation(summary = "Get all statements")
+    ResponseEntity<List<Statement>> getStatementList();
 }
