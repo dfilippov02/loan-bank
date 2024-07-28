@@ -8,6 +8,7 @@
 		<module>deal</module>
         <module>statement</module>
         <module>dossier</module>
+        <module>gateway</module>
     </modules>
     <parent>
 		<groupId>org.springframework.boot</groupId>
