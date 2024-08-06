@@ -2,12 +2,14 @@ package edu.neoflex.controller.impl;
 
 import edu.neoflex.config.KafkaTopics;
 import edu.neoflex.controller.DealApi;
+import edu.neoflex.domain.Statement;
 import edu.neoflex.dto.EmailMessageTheme;
 import edu.neoflex.dto.FinishRegistrationDto;
 import edu.neoflex.dto.LoanOfferDto;
 import edu.neoflex.dto.LoanStatementRequestDto;
 import edu.neoflex.service.CalculateByIdService;
 import edu.neoflex.service.OfferService;
+import edu.neoflex.service.StatementService;
 import edu.neoflex.service.impl.SendDocsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,7 @@ public class DealController implements DealApi {
     private final OfferService offerService;
     private final CalculateByIdService calculateByIdService;
     private final SendDocsServiceImpl docsService;
+    private final StatementService statementService;
 
     /**
      * Получение кредитных предложений
@@ -88,5 +91,26 @@ public class DealController implements DealApi {
     @PostMapping("/document/{statementId}/code")
     public void code(@PathVariable UUID statementId, @RequestParam String code) {
         offerService.signStatement(code, statementId);
+    }
+
+    /**
+     * Получение заявки по id
+     * @param statementId -
+     * @return -
+     */
+    @Override
+    @GetMapping("/admin/statement/{statementId}")
+    public ResponseEntity<Statement> getStatement(@PathVariable UUID statementId){
+        return ResponseEntity.ok(statementService.getStatement(statementId));
+    }
+
+    /**
+     * Получение всех заявок
+     * @return -
+     */
+    @Override
+    @GetMapping("/admin/statement")
+    public ResponseEntity<List<Statement>> getStatementList(){
+        return ResponseEntity.ok(statementService.getStatementList());
     }
 }
