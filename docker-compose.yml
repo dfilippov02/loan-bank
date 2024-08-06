@@ -1,5 +1,78 @@
 version: '3'
 services:
+
+  calculator:
+    build: /calculator
+    container_name: calculator
+    ports:
+      - "8080:8080"
+    networks:
+      - default
+
+  deal:
+    depends_on:
+      - db
+      - broker
+    build: /deal
+    container_name: deal
+    ports:
+      - "8081:8081"
+    networks:
+      - default
+    environment:
+      FEIGN_CLIENT_SERVER: "http://calculator:8080/calculator"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: 'broker:9092'
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/loan_bank
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: root
+
+
+  dossier:
+    depends_on:
+      - broker
+    build: /dossier
+    container_name: dossier
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: 'broker:9092'
+    networks:
+      - default
+
+  statement:
+    build: /statement
+    container_name: statement
+    ports:
+      - "8082:8082"
+    environment:
+      FEIGN_CLIENT_SERVER: "http://deal:8081/deal"
+    networks:
+      - default
+
+  gateway:
+    build: /gateway
+    container_name: gateway
+    ports:
+      - "8085:8085"
+    environment:
+      FEIGN_STATEMENT_SERVER: "http://statement:8082/statement"
+      FEIGN_DEAL_SERVER: "http://deal:8081/deal"
+
+  db:
+    image: postgres:16
+    restart: always
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: loan_bank
+    ports:
+      - "5432:5432"
+    volumes:
+      - ".:/var/lib/postgresql"
+    networks:
+      - default
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.4
     container_name: zookeeper
@@ -9,6 +82,8 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - "22181:2181"
+    networks:
+      - default
 
   broker:
     image: confluentinc/cp-kafka:7.4.4
@@ -22,7 +97,12 @@ services:
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    networks:
+      - default
+
+networks:
+  default: null
